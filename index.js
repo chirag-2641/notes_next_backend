@@ -7,6 +7,9 @@ const express = require("express");
 
   require('dotenv').config();
 
+  const mongoose = require('mongoose');
+  mongoose.set('strictQuery', false);
+
 
   //to use req body
   app.use(cors());
@@ -20,8 +23,8 @@ const express = require("express");
 
     app.listen(process.env.PORT, () => {
       console.log(
-        // `my-notebook backend listening at https://my-notebook-mohit.herokuapp.com:${process.env.PORT}`
-        `my-notebook backend listening at http://localhost:${process.env.PORT}`
+        `my-notebook backend listening at notes-next-backend.vercel.app:${process.env.PORT}`
+        // `my-notebook backend listening at http://localhost:${process.env.PORT}`
       );
     });
   }).catch(err => {
