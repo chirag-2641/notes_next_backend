@@ -23,7 +23,7 @@ const express = require("express");
 
     app.listen(process.env.PORT, () => {
       console.log(
-        `my-notebook backend listening at http://notes-next-backend.vercel.app:${process.env.PORT}`
+        `my-notebook backend listening at https://notes-next-backend.vercel.app:${process.env.PORT}`
         // `my-notebook backend listening at http://localhost:${process.env.PORT}`
       );
     });
