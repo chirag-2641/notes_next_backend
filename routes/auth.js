@@ -16,7 +16,7 @@ router.post(
     body("email", "Enter a valid email").isEmail(),
   ],
   async (req, res) => {
-
+        console.log("we are reaching here");
     let success = false;
     //If there are errors, then return bad request + Errors
     const errors = validationResult(req);
@@ -43,6 +43,7 @@ router.post(
         email: req.body.email,
         password: secPass,
       });
+      console.log(user);
 
       //passing the id as data to make jwt token
       const data = {
@@ -52,7 +53,7 @@ router.post(
       };
 
       const authToken = jwt.sign(data, process.env.JWT_SECRET);
-      //console.log(authToken)
+      console.log(authToken);
 
       
       success = true;

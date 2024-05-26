@@ -5,15 +5,38 @@ const Notes = require("../models/Notes");
 const { body, validationResult } = require("express-validator");
 
 //ROUTE 1 :Get all the notes of a particular user GET:/api/notes/fetchallnotes
-router.get("/fetchallnotes", fetchUser, async (req, res) => {
+// router.get("/fetchallnotes", fetchUser, async (req, res) => {
+//   try {
+//     let notes = await Notes.find({ user: req.user.id });
+//     res.json(notes);
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).send("internal server error");
+//   }
+// });
+
+// ROUTE 1: Get all the notes of a particular user GET: /api/notes/fetchallnotes
+router.get('/fetchallnotes', fetchUser, async (req, res) => {
   try {
-    let notes = await Notes.find({ user: req.user.id });
+    // Ensure the user is authenticated and has an ID
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    // Fetch notes for the authenticated user
+    const notes = await Notes.find({ user: req.user.id });
+
+    // Send the notes as a response
     res.json(notes);
   } catch (error) {
-    console.log(error.message);
-    res.status(500).send("internal server error");
+    // Log the entire error object for better debugging
+    console.error('Error fetching notes:', error);
+
+    // Send a more descriptive error message
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 //ROUTE 2 :Add notes of a particular user POST:/api/notes/addnote
 router.post(
@@ -75,7 +98,7 @@ router.put("/updatenote/:id", fetchUser, async (req, res) => {
     //finding the note to be updated and update it
     let noteToBeUpdated = await Notes.findById(req.params.id); //id in the parameter
 
-    //if note is not found
+    //if note is not found   
     if (!noteToBeUpdated) {
       return res.status(404).send("Not found");
     }
